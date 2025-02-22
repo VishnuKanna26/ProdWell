@@ -1,0 +1,8 @@
+@layer base {
+  h1, h2, h3 {
+    @apply font-bold text-gray-800;
+  }
+  button {
+    @apply px-4 py-2 rounded-lg transition-all;
+  }
+}
