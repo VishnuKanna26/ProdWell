@@ -1,0 +1,16 @@
+.navbar-dark {
+    background: linear-gradient(90deg, #1a1a2e, #0f3460);
+  }
+  .btn-primary {
+    background: linear-gradient(90deg, #007bff, #00c4cc);
+    border: none;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(90deg, #0056b3, #009fa8);
+  }
+  .card {
+    transition: transform 0.3s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }

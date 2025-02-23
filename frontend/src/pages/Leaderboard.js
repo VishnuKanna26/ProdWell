@@ -1,46 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import api from '../utils/api';
-import { TrophyIcon } from '@heroicons/react/24/solid';
-import Loader from '../components/Loader';
 
 const Leaderboard = () => {
-  const [leaderData, setLeaderData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchLeaders = async () => {
-      try {
-        const { data } = await api.get('/users/leaderboard');
-        setLeaderData(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchLeaders();
+    api.get('/users/leaderboard')
+      .then((res) => {
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError('Failed to load leaderboard');
+        setLoading(false);
+      });
   }, []);
 
-  if (isLoading) return <Loader />;
+  if (loading) return <div className="text-center py-5 text-light">Loading...</div>;
+  if (error) return <div className="text-danger text-center py-5">{error}</div>;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-8">
-      <h1 className="text-3xl font-bold text-gray-800">Leaderboard</h1>
-      <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-        <div className="divide-y">
-          {leaderData.map((user, idx) => (
-            <div key={user.id} className="p-6 flex items-center space-x-6 hover:bg-gray-50">
-              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                {idx === 0 ? <TrophyIcon className="w-6 h-6" /> : idx + 1}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold">{user.name}</h3>
-                <p className="text-gray-600">{user.score} Points</p>
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="container py-5">
+      <h1 className="display-5 fw-bold text-info mb-5">Leaderboard</h1>
+      <div className="list-group">
+        {data.map((user, idx) => (
+          <div key={user.id} className={`list-group-item bg-dark text-light d-flex justify-content-between align-items-center ${idx < 3 ? 'border-info' : ''}`}>
+            <span>{idx + 1}. {user.name}</span>
+            <span className="badge bg-info rounded-pill">{user.score} points</span>
+          </div>
+        ))}
       </div>
     </div>
   );

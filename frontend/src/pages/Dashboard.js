@@ -1,39 +1,45 @@
 import { useState, useEffect } from 'react';
-import RadialGauge from '../components/RadialGauge';
 import api from '../utils/api';
-import Loader from '../components/Loader';
 
 const Dashboard = () => {
-  const [productivity, setProductivity] = useState(0);
-  const [wellness, setWellness] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState({ productivity: 0, wellness: 0 });
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     api.get('/users/dashboard')
-      .then(({ data }) => {
-        setProductivity(data.productivity);
-        setWellness(data.wellness);
-        setIsLoading(false);
+      .then((res) => {
+        setData(res.data);
+        setLoading(false);
       })
-      .catch(err => {
-        setError('Failed to load dashboard data');
-        setIsLoading(false);
+      .catch((err) => {
+        setError('Failed to load dashboard');
+        setLoading(false);
       });
   }, []);
 
-  if (isLoading) return <Loader />;
-  if (error) return <div className="text-red-600 text-center p-6">{error}</div>;
+  if (loading) return <div className="text-center py-5 text-light">Loading...</div>;
+  if (error) return <div className="text-danger text-center py-5">{error}</div>;
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <RadialGauge value={productivity} label="Productivity Score" />
+    <div className="container py-5">
+      <h1 className="display-5 fw-bold text-info mb-5">Dashboard</h1>
+      <div className="row">
+        <div className="col-md-6 mb-4">
+          <div className="card bg-dark text-light shadow-lg border-0">
+            <div className="card-body text-center">
+              <h2 className="card-title fw-bold">Productivity</h2>
+              <p className="display-4 text-info">{data.productivity}</p>
+            </div>
+          </div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <RadialGauge value={wellness} label="Wellness Index" />
+        <div className="col-md-6 mb-4">
+          <div className="card bg-dark text-light shadow-lg border-0">
+            <div className="card-body text-center">
+              <h2 className="card-title fw-bold">Wellness</h2>
+              <p className="display-4 text-info">{data.wellness}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

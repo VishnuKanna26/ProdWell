@@ -1,42 +1,46 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext';
 
 const Layout = ({ children }) => {
   const navigate = useNavigate();
-  const { user, logout } = useAuthContext();
+  const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
 
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem('userInfo');
     navigate('/login');
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="bg-white shadow-sm">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <Link to="/" className="text-2xl font-bold text-blue-600">ProdWell</Link>
-            <div className="flex items-center space-x-4">
-              {user ? (
+    <div className="min-vh-100 d-flex flex-column">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg">
+        <div className="container-fluid">
+          <Link className="navbar-brand fw-bold text-info" to="/">ProdWell</Link>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              {userInfo.token ? (
                 <>
-                  <Link to="/dashboard" className="px-3 py-2 rounded hover:bg-gray-100">Dashboard</Link>
-                  <button onClick={handleLogout} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Logout</button>
+                  <li className="nav-item"><Link className="nav-link text-light" to="/dashboard">Dashboard</Link></li>
+                  <li className="nav-item"><Link className="nav-link text-light" to="/logs">Logs</Link></li>
+                  <li className="nav-item"><Link className="nav-link text-light" to="/reports">Reports</Link></li>
+                  <li className="nav-item"><Link className="nav-link text-light" to="/leaderboard">Leaderboard</Link></li>
+                  <li className="nav-item"><Link className="nav-link text-light" to="/insights">Insights</Link></li>
+                  <li className="nav-item"><button className="btn btn-danger" onClick={handleLogout}>Logout</button></li>
                 </>
               ) : (
                 <>
-                  <Link to="/login" className="px-3 py-2 rounded hover:bg-gray-100">Login</Link>
-                  <Link to="/register" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Sign Up</Link>
+                  <li className="nav-item"><Link className="nav-link text-light" to="/login">Login</Link></li>
+                  <li className="nav-item"><Link className="btn btn-primary" to="/register">Sign Up</Link></li>
                 </>
               )}
-            </div>
+            </ul>
           </div>
-        </nav>
-      </header>
-      <main className="flex-1">{children}</main>
-      <footer className="bg-gray-800 text-white py-8 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>© 2025 ProdWell. All rights reserved.</p>
         </div>
+      </nav>
+      <main className="flex-grow-1">{children}</main>
+      <footer className="bg-dark text-center py-3 text-light">
+        <p>© 2025 ProdWell - AI-Driven Wellness</p>
       </footer>
     </div>
   );

@@ -1,30 +1,29 @@
-import { useAuth } from '../hooks/useAuth';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import AuthForm from '../components/AuthForm';
+import { toast } from 'react-toastify';
 
 const Login = () => {
-  console.log('Login component rendered');
-  const { handleAuth, error, loading } = useAuth();
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    handleAuth(
-         (credentials) => api.post('/users/auth/login', credentials),
-      data,
-      '/dashboard', 
-      (response) => Login(response.data) // Pass login function
-    );
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const response = await api.post('/users/auth/login', data);
+      localStorage.setItem('userInfo', JSON.stringify(response.data));
+      toast.success('Logged in successfully!');
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return (
-    <AuthForm 
-      title="Welcome Back"
-      subtitle="Track your productivity journey"
-      onSubmit={onSubmit}
-      error={error}
-      loading={loading}
-      isLogin={true}
-    />
-  );
+  return <AuthForm onSubmit={onSubmit} isLogin={true} error={error} loading={loading} />;
 };
 
 export default Login;
