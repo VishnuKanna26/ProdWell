@@ -23,14 +23,18 @@ const Leaderboard = () => {
 
   return (
     <div className="container py-5">
-      <h1 className="display-5 fw-bold text-info mb-5">Leaderboard</h1>
-      <div className="list-group">
-        {data.map((user, idx) => (
-          <div key={user.id} className={`list-group-item bg-dark text-light d-flex justify-content-between align-items-center ${idx < 3 ? 'border-info' : ''}`}>
-            <span>{idx + 1}. {user.name}</span>
-            <span className="badge bg-info rounded-pill">{user.score} points</span>
-          </div>
-        ))}
+      <h1 className="display-5 fw-bold gradient-text mb-5">Leaderboard</h1>
+      <div className="card shadow-lg">
+        <div className="card-body">
+          <ul className="list-group list-group-flush">
+            {data.map((user, idx) => (
+              <li key={user.id} className="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
+                <span>{idx + 1}. {user.name}</span>
+                <span className="badge bg-primary rounded-pill">{user.score} points</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

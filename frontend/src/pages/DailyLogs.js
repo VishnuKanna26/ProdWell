@@ -35,20 +35,20 @@ const DailyLogs = () => {
 
   return (
     <div className="container py-5">
-      <h1 className="display-5 fw-bold text-info mb-5">Daily Logs</h1>
-      <div className="card bg-dark text-light shadow-lg border-0 mb-5">
+      <h1 className="display-5 fw-bold gradient-text mb-5">Daily Logs</h1>
+      <div className="card shadow-lg mb-5">
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
               <div className="col-md-6 mb-3">
-                <label className="form-label">Sleep (hours)</label>
-                <input type="number" {...register('sleep', { required: true, min: 0 })} className="form-control bg-secondary text-light border-0" />
-                {errors.sleep && <p className="text-danger mt-1">Sleep is required and must be positive</p>}
+                <label className="form-label text-light">Sleep (hours)</label>
+                <input type="number" {...register('sleep', { required: true, min: 0 })} className="form-control bg-dark text-light border-0" />
+                {errors.sleep && <small className="text-danger">Sleep is required and must be positive</small>}
               </div>
               <div className="col-md-6 mb-3">
-                <label className="form-label">Exercise (minutes)</label>
-                <input type="number" {...register('exercise', { required: true, min: 0 })} className="form-control bg-secondary text-light border-0" />
-                {errors.exercise && <p className="text-danger mt-1">Exercise is required and must be positive</p>}
+                <label className="form-label text-light">Exercise (minutes)</label>
+                <input type="number" {...register('exercise', { required: true, min: 0 })} className="form-control bg-dark text-light border-0" />
+                {errors.exercise && <small className="text-danger">Exercise is required and must be positive</small>}
               </div>
             </div>
             <button type="submit" className="btn btn-primary w-100">Add Log</button>
@@ -58,10 +58,10 @@ const DailyLogs = () => {
       <div className="row">
         {logs.map((log, idx) => (
           <div key={idx} className="col-md-4 mb-3">
-            <div className="card bg-dark text-light shadow border-0">
+            <div className="card shadow-lg">
               <div className="card-body">
-                <p>Sleep: <span className="fw-bold text-info">{log.sleep}</span> hrs</p>
-                <p>Exercise: <span className="fw-bold text-info">{log.exercise}</span> mins</p>
+                <p className="text-light">Sleep: <span className="fw-bold gradient-text">{log.sleep}</span> hrs</p>
+                <p className="text-light">Exercise: <span className="fw-bold gradient-text">{log.exercise}</span> mins</p>
               </div>
             </div>
           </div>

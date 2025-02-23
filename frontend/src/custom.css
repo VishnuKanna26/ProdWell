@@ -1,16 +1,39 @@
-.navbar-dark {
-    background: linear-gradient(90deg, #1a1a2e, #0f3460);
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #e2e8f0;
   }
+  
+  .navbar-dark {
+    background: linear-gradient(90deg, #1e293b, #334155);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
   .btn-primary {
-    background: linear-gradient(90deg, #007bff, #00c4cc);
+    background: linear-gradient(90deg, #3b82f6, #9333ea);
     border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
+  
   .btn-primary:hover {
-    background: linear-gradient(90deg, #0056b3, #009fa8);
+    background: linear-gradient(90deg, #2563eb, #7e22ce);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
   }
+  
   .card {
-    transition: transform 0.3s;
+    background: #1e293b;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
   }
+  
   .card:hover {
     transform: translateY(-5px);
+  }
+  
+  .gradient-text {
+    background: linear-gradient(90deg, #3b82f6, #9333ea);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
